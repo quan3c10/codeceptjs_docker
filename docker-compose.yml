@@ -1,0 +1,42 @@
+version: '3'
+services:
+  selenoid:
+    container_name: selenoid
+    image: "aerokube/selenoid:1.10.7"
+    network_mode: bridge
+    volumes:
+      - "./:/etc/selenoid/:ro"
+      - "./output/video:/opt/selenoid/video"
+      - "//var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - OVERRIDE_VIDEO_OUTPUT_DIR=/c/QuanUH/automation/output/video"
+    command: ["-conf", "/etc/selenoid/browsers.json", "-video-output-dir", "/opt/selenoid/video"]
+    ports:
+      - "4444:4444"
+
+  selenoid-ui:
+    container_name: selenoid-ui
+    image: "aerokube/selenoid-ui:dev-latest"
+    network_mode: bridge
+    links:
+      - selenoid
+    ports:
+      - "8080:8080"
+    command: ["--selenoid-uri", "http://selenoid:4444"]
+
+  codeceptjs:
+    image: codeceptjs/codeceptjs
+    network_mode: bridge
+    links:
+      - selenoid:selenium
+    volumes:
+      - ./:/tests
+    command: ["codeceptjs", "run", "--plugins", "allure", "./features/TextBoxTest.feature"]
+
+#    chrome:
+#      image: "seleniarm/standalone-chromium:4.1.3-20220412"
+#      network_mode: bridge
+#      ports:
+#        - "4444:4444"
+#      privileged: true
+#      shm_size: 2g

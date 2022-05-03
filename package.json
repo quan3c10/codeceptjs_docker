@@ -1,0 +1,25 @@
+{
+    "name": "deha-automation-package",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "UAT": "codeceptjs run --step",
+        "UAT:test": "codeceptjs run features/TextBoxTest.features"
+    },
+    "devDependencies": {
+        "@codeceptjs/configure": "^0.8.0",
+        "@codeceptjs/examples": "^1.2.1",
+        "@codeceptjs/ui": "^0.3.2",
+        "@wdio/cli": "^7.16.14",
+        "@wdio/selenium-standalone-service": "^7.19.5",
+        "allure-commandline": "^2.17.2",
+        "codeceptjs": "^3.3.0",
+        "playwright": "^1.18.1",
+        "selenium-standalone": "^8.0.11"
+    },
+    "dependencies": {
+        "electron": "^17.0.0",
+        "puppeteer": "^13.6.0",
+        "webdriverio": "^7.16.14"
+    }
+}
